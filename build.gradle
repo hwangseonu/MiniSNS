@@ -24,6 +24,8 @@ repositories {
 }
 
 dependencies {
-    compileOnly group: 'javax.servlet', name:'javax.servlet-api', version: '+'
+    compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.0.1'
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.4'
+    compileOnly group: 'javax.servlet', name: 'javax.servlet-api', version: '+'
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
