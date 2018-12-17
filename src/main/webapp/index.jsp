@@ -96,11 +96,11 @@
         if (user == null) {
       %>
       <a href="${pageContext.request.contextPath}/login.jsp" class="navbar-menu">login</a>
-      <a href="#" class="navbar-menu">register</a>
+      <a href="${pageContext.request.contextPath}/register.jsp" class="navbar-menu">register</a>
       <%
         } else {
+            out.println("<a href=\"#\" class=\"navbar-menu\">"+user.getNickname()+"님 환영합니다.</a>");
       %>
-      <a href="#" class="navbar-menu">user profile</a>
       <a href="${pageContext.request.contextPath}/logout" class="navbar-menu">logout</a>
       <%
         }

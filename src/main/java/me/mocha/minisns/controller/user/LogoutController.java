@@ -1,4 +1,4 @@
-package me.mocha.minisns.controller;
+package me.mocha.minisns.controller.user;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

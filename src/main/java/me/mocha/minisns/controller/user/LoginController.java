@@ -1,4 +1,4 @@
-package me.mocha.minisns.controller;
+package me.mocha.minisns.controller.user;
 
 import me.mocha.minisns.exception.ApplicationException;
 import me.mocha.minisns.model.dto.UserDTO;
@@ -27,6 +27,13 @@ public class LoginController extends HttpServlet {
 
             UserDTO user = userService.getUser(username);
 
+            if (strEmpty(username) || strEmpty(password)) {
+                RequestDispatcher dispatcher = req.getRequestDispatcher("/login.jsp");
+                req.setAttribute("message", "빈칸이 있습니다.");
+                dispatcher.forward(req, res);
+                return;
+            }
+
             if (user.verify(password)) {
                 req.getSession().setAttribute("user", user);
                 res.sendRedirect(req.getContextPath() + "/");
@@ -38,5 +45,9 @@ public class LoginController extends HttpServlet {
         RequestDispatcher dispatcher = req.getRequestDispatcher("/login.jsp");
         req.setAttribute("message", "login failed!");
         dispatcher.forward(req, res);
+    }
+
+    private boolean strEmpty(String msg) {
+        return msg == null || msg.isEmpty();
     }
 }
