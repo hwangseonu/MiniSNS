@@ -1,3 +1,4 @@
+<%@ page import="me.mocha.minisns.model.dto.UserDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -90,8 +91,20 @@
       <a href="${pageContext.request.contextPath}/">Mini SNS</a>
     </div>
     <div class="navbar-right">
-      <a href="#" class="navbar-menu">login</a>
+      <%
+        UserDTO user = (UserDTO) session.getAttribute("user");
+        if (user == null) {
+      %>
+      <a href="${pageContext.request.contextPath}/login.jsp" class="navbar-menu">login</a>
       <a href="#" class="navbar-menu">register</a>
+      <%
+        } else {
+      %>
+      <a href="#" class="navbar-menu">user profile</a>
+      <a href="${pageContext.request.contextPath}/logout" class="navbar-menu">logout</a>
+      <%
+        }
+      %>
     </div>
   </nav>
   <header id="page-header">

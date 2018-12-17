@@ -25,4 +25,8 @@ public class UserDTO {
         this.nickname = nickname;
     }
 
+    public boolean verify(String password) {
+        return this.password.equals(password);
+    }
+
 }

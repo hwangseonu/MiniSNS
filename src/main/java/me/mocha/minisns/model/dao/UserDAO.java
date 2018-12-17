@@ -13,10 +13,10 @@ import java.util.logging.Logger;
 
 public class UserDAO {
 
-    private static final Connection db = DBConnection.getConnection();
-    private static final Logger log = Logger.getLogger(UserDAO.class.getName());
+    private final Connection db = DBConnection.getConnection();
+    private final Logger log = Logger.getLogger(UserDAO.class.getName());
 
-    public static boolean existsNickname(String nickname) {
+    public boolean existsByNickname(String nickname) {
         try {
             String sql = "SELECT * FROM users WHERE nickname=?";
             PreparedStatement pstmt = db.prepareStatement(sql);
@@ -28,7 +28,7 @@ public class UserDAO {
         return false;
     }
 
-    public static boolean existsUsername(String username) {
+    public boolean existsByUsername(String username) {
         try {
             String sql = "SELECT * FROM users WHERE username=?";
             PreparedStatement pstmt = db.prepareStatement(sql);
@@ -40,17 +40,17 @@ public class UserDAO {
         return false;
     }
 
-    public static boolean createUser(String username, String password, String nickname) throws ConflictException {
-        if (existsUsername(username) || existsNickname(nickname)) {
+    public boolean save(UserDTO userDTO) throws ConflictException {
+        if (existsByUsername(userDTO.getUsername()) || existsByNickname(userDTO.getNickname())) {
             log.warning("already exists user");
             throw new ConflictException("already exists user", 409);
         }
         try {
             String sql = "INSERT INTO users VALUES(?, ?, ?)";
             PreparedStatement pstmt = db.prepareStatement(sql);
-            pstmt.setString(1, username);
-            pstmt.setString(2, password);
-            pstmt.setString(3, nickname);
+            pstmt.setString(1, userDTO.getUsername());
+            pstmt.setString(2, userDTO.getPassword());
+            pstmt.setString(3, userDTO.getNickname());
             int i =  pstmt.executeUpdate();
             return i == 1;
         } catch (SQLException ex) {
@@ -59,8 +59,8 @@ public class UserDAO {
         return false;
     }
 
-    public static UserDTO findUserByUsername(String username) throws NotFoundException {
-        if (!existsUsername(username)) {
+    public UserDTO findByUsername(String username) throws NotFoundException {
+        if (!existsByUsername(username)) {
             throw new NotFoundException("cannot found user", 404);
         }
         try {
@@ -68,6 +68,7 @@ public class UserDAO {
             PreparedStatement pstmt = db.prepareStatement(sql);
             pstmt.setString(1, username);
             ResultSet resultSet = pstmt.executeQuery();
+            resultSet.first();
             return UserDTO.builder()
                     .username(resultSet.getString(1))
                     .password(resultSet.getString(2))
