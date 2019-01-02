@@ -21,7 +21,7 @@ public class PostDTO {
     private String content;
 
     @Getter
-    private int views;
+    private long views;
 
     @Getter
     private String username;
