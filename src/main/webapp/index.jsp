@@ -42,6 +42,7 @@
       margin-left: 20px;
       color: #555555;
       font-size: 1rem;
+      font-weight: bold;
     }
 
     .navbar-menu:hover {
@@ -95,13 +96,13 @@
         UserDTO user = (UserDTO) session.getAttribute("user");
         if (user == null) {
       %>
-      <a href="${pageContext.request.contextPath}/login.jsp" class="navbar-menu">login</a>
-      <a href="${pageContext.request.contextPath}/register.jsp" class="navbar-menu">register</a>
+      <a href="${pageContext.request.contextPath}/login.jsp" class="navbar-menu">로그인</a>
+      <a href="${pageContext.request.contextPath}/register.jsp" class="navbar-menu">회원가입</a>
       <%
         } else {
             out.println("<a href=\"#\" class=\"navbar-menu\">"+user.getNickname()+"님 환영합니다.</a>");
       %>
-      <a href="${pageContext.request.contextPath}/logout" class="navbar-menu">logout</a>
+      <a href="${pageContext.request.contextPath}/logout" class="navbar-menu">로그아웃</a>
       <%
         }
       %>
