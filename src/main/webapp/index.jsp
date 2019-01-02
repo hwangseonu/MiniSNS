@@ -72,7 +72,7 @@
     
     .description {
       color: #FFFFFF;
-      font-style: 1em;
+      font-size: 1.3em;
     }
 
     @keyframes menu-hover {
