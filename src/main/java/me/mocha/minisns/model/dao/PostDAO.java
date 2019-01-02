@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class PostDAO {
@@ -43,6 +45,29 @@ public class PostDAO {
             log.warning("sql error " + ex.getMessage());
             throw new NotFoundException("cannot found post", 404);
         }
+    }
+
+    public List<PostDTO> findAll() {
+        List<PostDTO> result = new LinkedList<>();
+        try {
+            String sql = "SELECT * FROM posts";
+            PreparedStatement pstmt = db.prepareStatement(sql);
+            ResultSet resultSet = pstmt.executeQuery();
+
+            while (resultSet.next()) {
+                result.add(PostDTO.builder()
+                        .id(resultSet.getLong("id"))
+                        .title(resultSet.getString("title"))
+                        .content(resultSet.getString("content"))
+                        .username(resultSet.getString("username"))
+                        .views(resultSet.getLong("view"))
+                        .build());
+
+            }
+        } catch (Exception e) {
+            log.warning(e.getMessage());
+        }
+        return result;
     }
 
     public boolean save(PostDTO postDTO) {
