@@ -32,6 +32,13 @@ public class PostController extends HttpServlet {
         String title = req.getParameter("title");
         String content = req.getParameter("content");
 
+        if (strEmpty(title) || strEmpty(content)) {
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/editor.jsp");
+            req.setAttribute("message",  "빈칸이 있습니다.");
+            dispatcher.forward(req, res);
+            return;
+        }
+
         try {
             if (postService.createPost(user, title, content)) {
                 res.sendRedirect(req.getContextPath() + "/");
@@ -44,6 +51,10 @@ public class PostController extends HttpServlet {
             req.setAttribute("message",  e.getMessage());
             dispatcher.forward(req, res);
         }
+    }
+
+    private boolean strEmpty(String msg) {
+        return msg == null || msg.isEmpty();
     }
 
 }

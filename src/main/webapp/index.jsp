@@ -71,8 +71,21 @@
     }
     
     .description {
+      margin: 0;
       color: #FFFFFF;
       font-size: 1.3em;
+    }
+
+    .btn-post {
+      width: 300px;
+      height: 50px;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 1.3em;
+      color: #FFFFFF;
+      background: #555555;
+      margin-top: 50px;
     }
 
     @keyframes menu-hover {
@@ -111,7 +124,8 @@
   <header id="page-header">
     <div class="page-description">
       <p class="title">Mini SNS</p>
-      <span class="description">"자바로 만든 작은 소셜 네트워크 서비스"</span>
+      <p class="description">"자바로 만든 작은 소셜 네트워크 서비스"</p>
+      <a href="${pageContext.request.contextPath}/editor.jsp"><button class="btn-post">게시글 쓰기</button></a>
     </div>
   </header>
 </body>

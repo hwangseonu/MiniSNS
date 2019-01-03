@@ -93,7 +93,7 @@ public class PostDAO {
                 }
             }
 
-            String sql = "INSERT INTO posts(title, content, views, username) VALUES(?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO posts(title, content, views, username) VALUES(?, ?, ?, ?)";
             PreparedStatement pstmt = db.prepareStatement(sql);
             pstmt.setString(1, postDTO.getTitle());
             pstmt.setString(2, postDTO.getContent());
@@ -102,7 +102,7 @@ public class PostDAO {
             int i = pstmt.executeUpdate();
             return i == 1;
         } catch (SQLException ex) {
-            log.warning("sql error" + ex.getMessage());
+            log.warning("sql error - " + ex.getMessage());
             return false;
         }
     }
