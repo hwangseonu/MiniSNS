@@ -1,5 +1,6 @@
 package me.mocha.minisns.model.service;
 
+import me.mocha.minisns.exception.ConflictException;
 import me.mocha.minisns.model.dao.PostDAO;
 import me.mocha.minisns.model.dto.PostDTO;
 import me.mocha.minisns.model.dto.UserDTO;
@@ -11,7 +12,7 @@ public class PostService {
     private final PostDAO postDAO = new PostDAO();
     private final Logger log = Logger.getLogger(getClass().getName());
 
-    public boolean createPost(UserDTO user, String title, String content) {
+    public boolean createPost(UserDTO user, String title, String content) throws ConflictException {
         return postDAO.save(PostDTO.builder()
                 .title(title)
                 .content(content)

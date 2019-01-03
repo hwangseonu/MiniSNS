@@ -34,14 +34,15 @@ public class RegisterController extends HttpServlet {
         try {
             if (userService.createUser(username, password, nickname)) {
                 res.sendRedirect(req.getContextPath() + "/login.jsp");
-                return;
+            } else {
+                throw new RuntimeException("register failed!");
             }
-        } catch (ApplicationException ex) {
-            log.warning("register error : " + ex.getMessage());
+        } catch (Exception ex) {
+            log.warning("register error - " + ex.getMessage());
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/login.jsp");
+            req.setAttribute("message", ex.getMessage());
+            dispatcher.forward(req, res);
         }
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/login.jsp");
-        req.setAttribute("message", "register failed!");
-        dispatcher.forward(req, res);
     }
 
     private boolean strEmpty(String msg) {
