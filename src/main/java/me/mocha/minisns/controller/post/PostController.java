@@ -23,7 +23,7 @@ public class PostController extends HttpServlet {
         UserDTO user = (UserDTO) req.getSession().getAttribute("user");
 
         if (user == null) {
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/editor.jsp");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/login.jsp");
             req.setAttribute("message", "로그인을 먼저 해주세요.");
             dispatcher.forward(req, res);
             return;
@@ -40,7 +40,7 @@ public class PostController extends HttpServlet {
             }
         } catch (Exception e) {
             log.warning("post error - " + e.getMessage());
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/login.jsp");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/editor.jsp");
             req.setAttribute("message",  e.getMessage());
             dispatcher.forward(req, res);
         }
