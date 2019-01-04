@@ -86,9 +86,39 @@ public class PostController extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        //TODO
-        UserDTO user = (UserDTO) req.getSession().getAttribute("user");
+        try {
+            int id = Integer.parseInt(req.getParameter("id"));
+            UserDTO user = (UserDTO) req.getSession().getAttribute("user");
+            PostDTO post = postService.getPost(id);
 
+            if (!post.getUsername().equals(user.getUsername())) {
+                sendError(req, res, post, "자신의 게시글이 아닙니다.");
+                return;
+            }
+
+            if (!postService.deletePost(post.getId())) {
+                sendError(req, res, post, "failed delete post");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            log.warning(e.getMessage());
+        }
+        res.sendRedirect(req.getContextPath() + "/");
+    }
+
+    private void sendError(HttpServletRequest req, HttpServletResponse res, PostDTO post, String msg) throws IOException, ServletException {
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/post.jsp");
+        req.setAttribute("message", msg);
+
+        Parser parser = Parser.builder().build();
+        HtmlRenderer renderer = HtmlRenderer.builder().build();
+        String parsedContent = renderer.render(parser.parse(post.getContent()));
+
+        req.setAttribute("title", post.getTitle());
+        req.setAttribute("content", parsedContent);
+        req.setAttribute("username", post.getUsername());
+        req.setAttribute("views", post.getViews() + 1);
+        dispatcher.forward(req, res);
     }
 
     private boolean strEmpty(String msg) {

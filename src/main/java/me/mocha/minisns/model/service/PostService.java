@@ -29,6 +29,10 @@ public class PostService {
         return postDAO.save(postDTO, false);
     }
 
+    public boolean deletePost(long id) {
+        return postDAO.deleteById(id);
+    }
+
     public boolean update(PostDTO postDTO) {
         return postDAO.save(postDTO, true);
     }

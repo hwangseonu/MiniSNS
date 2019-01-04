@@ -30,6 +30,7 @@ public class UserDTO {
     }
 
     public boolean equals(UserDTO user) {
+        if (user == null) return false;
         return user.getUsername().equals(username) && user.getNickname().equals(nickname);
     }
 

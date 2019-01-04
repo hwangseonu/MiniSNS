@@ -113,4 +113,21 @@ public class PostDAO {
         }
     }
 
+    public boolean deleteById(long id) {
+        try {
+            if (!existsById(id)) {
+                return false;
+            } else {
+                String sql = "DELETE FROM posts WHERE id=?";
+                PreparedStatement pstmt = db.prepareStatement(sql);
+                pstmt.setLong(1, id);
+                int i = pstmt.executeUpdate();
+                return i == 1;
+            }
+        } catch (SQLException e) {
+            log.warning("sql error - " + e.getMessage());
+            return false;
+        }
+    }
+
 }
