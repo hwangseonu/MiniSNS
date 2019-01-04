@@ -46,6 +46,10 @@
       background-color: #555555;
     }
 
+    .btn-login:hover {
+      background-color: #333333;
+    }
+
     @keyframes login-slide {
       from {
         margin-top: -500%;

@@ -45,6 +45,10 @@
       background-color: #555555;
     }
 
+    .btn-register:hover {
+      background-color: #333333;
+    }
+
     @keyframes register-slide {
       from {
         margin-top: -500%;

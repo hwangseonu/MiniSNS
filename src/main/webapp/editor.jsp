@@ -90,7 +90,11 @@
       font-weight: bold;
       font-size: 1.3em;
       color: #FFFFFF;
-      background: #555555;
+      background-color: #555555;
+    }
+
+    .btn-submit:hover {
+      background-color: #333333;
     }
 
     @media screen and (max-width: 1280px) {

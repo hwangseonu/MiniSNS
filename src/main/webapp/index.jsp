@@ -88,6 +88,10 @@
       margin-top: 50px;
     }
 
+    .btn-post:hover {
+      background: #333333;
+    }
+
     @keyframes menu-hover {
       from {
         font-size: 1rem;
