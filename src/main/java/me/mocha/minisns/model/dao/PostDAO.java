@@ -40,7 +40,13 @@ public class PostDAO {
             pstmt.setLong(1, id);
             ResultSet resultSet = pstmt.executeQuery();
             resultSet.first();
-            return PostDTO.builder().build();
+            return PostDTO.builder()
+                    .title(resultSet.getString("title"))
+                    .content(resultSet.getString("content"))
+                    .views(resultSet.getLong("views"))
+                    .username(resultSet.getString("username"))
+                    .id(resultSet.getLong("id"))
+                    .build();
         } catch (SQLException ex) {
             log.warning("sql error " + ex.getMessage());
             throw new NotFoundException("cannot found post", 404);

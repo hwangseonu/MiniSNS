@@ -25,6 +25,12 @@ public class PostService {
         return postDAO.findById(id);
     }
 
+    public boolean save(PostDTO postDTO) {
+        return postDAO.save(postDTO, false);
+    }
 
+    public boolean update(PostDTO postDTO) {
+        return postDAO.save(postDTO, true);
+    }
 
 }

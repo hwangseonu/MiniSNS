@@ -1,7 +1,10 @@
 package me.mocha.minisns.controller.post;
 
+import me.mocha.minisns.model.dto.PostDTO;
 import me.mocha.minisns.model.dto.UserDTO;
 import me.mocha.minisns.model.service.PostService;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -50,6 +53,34 @@ public class PostController extends HttpServlet {
             RequestDispatcher dispatcher = req.getRequestDispatcher("/editor.jsp");
             req.setAttribute("message",  e.getMessage());
             dispatcher.forward(req, res);
+        }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        try {
+            int id = Integer.parseInt(req.getParameter("id"));
+            String parsedContent = "";
+
+            PostDTO post = postService.getPost(id);
+
+            post.addViews(1);
+            postService.update(post);
+
+            Parser parser = Parser.builder().build();
+            HtmlRenderer renderer = HtmlRenderer.builder().build();
+            parsedContent = renderer.render(parser.parse(post.getContent()));
+
+            req.setAttribute("title", post.getTitle());
+            req.setAttribute("content", parsedContent);
+            req.setAttribute("username", post.getUsername());
+            req.setAttribute("views", post.getViews() + 1);
+
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/post.jsp");
+            dispatcher.forward(req, res);
+        } catch (NumberFormatException e) {
+            log.warning(e.getMessage());
+            //TODO
         }
     }
 
