@@ -29,4 +29,8 @@ public class UserDTO {
         return this.password.equals(password);
     }
 
+    public boolean equals(UserDTO user) {
+        return user.getUsername().equals(username) && user.getNickname().equals(nickname);
+    }
+
 }

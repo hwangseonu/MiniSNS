@@ -84,6 +84,13 @@ public class PostController extends HttpServlet {
         }
     }
 
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        //TODO
+        UserDTO user = (UserDTO) req.getSession().getAttribute("user");
+
+    }
+
     private boolean strEmpty(String msg) {
         return msg == null || msg.isEmpty();
     }

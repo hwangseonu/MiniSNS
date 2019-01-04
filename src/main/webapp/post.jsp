@@ -13,7 +13,7 @@
 
     .page-wrapper {
       margin: 50px auto auto;
-      width: 1280px;
+      width: 768px;
     }
 
     .page-header {
@@ -51,7 +51,11 @@
       margin-left: auto;
     }
 
-    @media screen and (max-width: 1280px) {
+    .page-section {
+      margin-top: 10px;
+    }
+
+    @media screen and (max-width: 768px) {
       .page-wrapper {
         width: 100%;
       }
