@@ -103,12 +103,13 @@
     </div>
   </div>
   <div class="page-footer">
-    <form>
+    <form action="${pageContext.request.contextPath}/posts/delete" method="post">
+      <input name="id" value="<%=request.getAttribute("id")%>" hidden="hidden">
       <%
         UserDTO user = (UserDTO) request.getSession().getAttribute("user");
         if (user != null) {
           if (request.getAttribute("username").equals(user.getUsername())) {
-            out.println("<button type=\"submit\" class=\"btn-delete\">삭제</button>");
+            out.println("<button class=\"btn-delete\" onClick=\"onDeleteClick()\">삭제</button>");
           }
         }
       %>

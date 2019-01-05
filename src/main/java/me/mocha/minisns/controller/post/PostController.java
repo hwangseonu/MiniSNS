@@ -60,7 +60,6 @@ public class PostController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         try {
             int id = Integer.parseInt(req.getParameter("id"));
-            String parsedContent = "";
 
             PostDTO post = postService.getPost(id);
 
@@ -69,8 +68,9 @@ public class PostController extends HttpServlet {
 
             Parser parser = Parser.builder().build();
             HtmlRenderer renderer = HtmlRenderer.builder().build();
-            parsedContent = renderer.render(parser.parse(post.getContent()));
+            String parsedContent = renderer.render(parser.parse(post.getContent()));
 
+            req.setAttribute("id", post.getId());
             req.setAttribute("title", post.getTitle());
             req.setAttribute("content", parsedContent);
             req.setAttribute("username", post.getUsername());
@@ -78,47 +78,10 @@ public class PostController extends HttpServlet {
 
             RequestDispatcher dispatcher = req.getRequestDispatcher("/post.jsp");
             dispatcher.forward(req, res);
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             log.warning(e.getMessage());
-            //TODO
+            res.sendRedirect(req.getContextPath() + "/");
         }
-    }
-
-    @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        try {
-            int id = Integer.parseInt(req.getParameter("id"));
-            UserDTO user = (UserDTO) req.getSession().getAttribute("user");
-            PostDTO post = postService.getPost(id);
-
-            if (!post.getUsername().equals(user.getUsername())) {
-                sendError(req, res, post, "자신의 게시글이 아닙니다.");
-                return;
-            }
-
-            if (!postService.deletePost(post.getId())) {
-                sendError(req, res, post, "failed delete post");
-                return;
-            }
-        } catch (NumberFormatException e) {
-            log.warning(e.getMessage());
-        }
-        res.sendRedirect(req.getContextPath() + "/");
-    }
-
-    private void sendError(HttpServletRequest req, HttpServletResponse res, PostDTO post, String msg) throws IOException, ServletException {
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/post.jsp");
-        req.setAttribute("message", msg);
-
-        Parser parser = Parser.builder().build();
-        HtmlRenderer renderer = HtmlRenderer.builder().build();
-        String parsedContent = renderer.render(parser.parse(post.getContent()));
-
-        req.setAttribute("title", post.getTitle());
-        req.setAttribute("content", parsedContent);
-        req.setAttribute("username", post.getUsername());
-        req.setAttribute("views", post.getViews() + 1);
-        dispatcher.forward(req, res);
     }
 
     private boolean strEmpty(String msg) {

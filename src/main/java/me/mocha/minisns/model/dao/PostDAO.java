@@ -14,51 +14,77 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class PostDAO {
-
-    private final Connection db = DBConnection.getConnection();
     private final Logger log = Logger.getLogger(getClass().getName());
 
     public boolean existsById(long id) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet resultSet = null;
         try {
+            conn = DBConnection.getConnection();
             String sql = "SELECT * FROM posts WHERE id=?";
-            PreparedStatement pstmt = db.prepareStatement(sql);
+            pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, id);
-            return pstmt.executeQuery().first();
+            resultSet = pstmt.executeQuery();
+            return resultSet.first();
         } catch (SQLException ex) {
             log.warning("sql error" + ex.getMessage());
+        } finally {
+            closeResources(conn, pstmt);
         }
         return false;
     }
 
     public PostDTO findById(long id) {
         if (!existsById(id)) {
-            throw new NotFoundException("cannot found user", 404);
+            throw new NotFoundException("cannot found post", 404);
         }
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet resultSet = null;
+
         try {
+            conn = DBConnection.getConnection();
             String sql = "SELECT * FROM posts WHERE id=?";
-            PreparedStatement pstmt = db.prepareStatement(sql);
+            pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, id);
-            ResultSet resultSet = pstmt.executeQuery();
+            resultSet = pstmt.executeQuery();
             resultSet.first();
+
+            String title = resultSet.getString("title");
+            String content = resultSet.getString("content");
+            String username = resultSet.getString("username");
+
+            long views = resultSet.getLong("views");
+            id = resultSet.getLong("id");
+
             return PostDTO.builder()
-                    .title(resultSet.getString("title"))
-                    .content(resultSet.getString("content"))
-                    .views(resultSet.getLong("views"))
-                    .username(resultSet.getString("username"))
-                    .id(resultSet.getLong("id"))
+                    .title(title)
+                    .content(content)
+                    .views(views)
+                    .username(username)
+                    .id(id)
                     .build();
         } catch (SQLException ex) {
             log.warning("sql error " + ex.getMessage());
             throw new NotFoundException("cannot found post", 404);
+        } finally {
+            closeResources(conn, pstmt);
         }
     }
 
     public List<PostDTO> findAll() {
         List<PostDTO> result = new LinkedList<>();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet resultSet = null;
+
         try {
+            conn = DBConnection.getConnection();
             String sql = "SELECT * FROM posts";
-            PreparedStatement pstmt = db.prepareStatement(sql);
-            ResultSet resultSet = pstmt.executeQuery();
+            pstmt = conn.prepareStatement(sql);
+            resultSet = pstmt.executeQuery();
 
             while (resultSet.next()) {
                 result.add(PostDTO.builder()
@@ -72,6 +98,8 @@ public class PostDAO {
             }
         } catch (Exception e) {
             log.warning(e.getMessage());
+        } finally {
+            closeResources(conn, pstmt);
         }
         return result;
     }
@@ -81,11 +109,15 @@ public class PostDAO {
     }
 
     public boolean save(PostDTO postDTO, boolean update) throws ConflictException {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
         try {
+            conn = DBConnection.getConnection();
             if (existsById(postDTO.getId())) {
                 if (update) {
                     String sql = "UPDATE posts SET title=?, content=?, views=?, username=? WHERE id=?";
-                    PreparedStatement pstmt = db.prepareStatement(sql);
+                    pstmt = conn.prepareStatement(sql);
                     pstmt.setString(1, postDTO.getTitle());
                     pstmt.setString(2, postDTO.getContent());
                     pstmt.setLong(3, postDTO.getViews());
@@ -100,7 +132,7 @@ public class PostDAO {
             }
 
             String sql = "INSERT INTO posts(title, content, views, username) VALUES(?, ?, ?, ?)";
-            PreparedStatement pstmt = db.prepareStatement(sql);
+            pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, postDTO.getTitle());
             pstmt.setString(2, postDTO.getContent());
             pstmt.setLong(3, postDTO.getViews());
@@ -110,16 +142,22 @@ public class PostDAO {
         } catch (SQLException ex) {
             log.warning("sql error - " + ex.getMessage());
             return false;
+        } finally {
+            closeResources(conn, pstmt);
         }
     }
 
     public boolean deleteById(long id) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
         try {
+            conn = DBConnection.getConnection();
             if (!existsById(id)) {
                 return false;
             } else {
                 String sql = "DELETE FROM posts WHERE id=?";
-                PreparedStatement pstmt = db.prepareStatement(sql);
+                pstmt = conn.prepareStatement(sql);
                 pstmt.setLong(1, id);
                 int i = pstmt.executeUpdate();
                 return i == 1;
@@ -127,7 +165,13 @@ public class PostDAO {
         } catch (SQLException e) {
             log.warning("sql error - " + e.getMessage());
             return false;
+        } finally {
+            closeResources(conn, pstmt);
         }
+    }
+
+    private void closeResources(Connection conn, PreparedStatement pstmt) {
+        DBConnection.closeResources(conn, pstmt);
     }
 
 }

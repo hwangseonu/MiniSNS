@@ -1,8 +1,6 @@
 package me.mocha.minisns.model;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.logging.Logger;
 
 public class DBConnection {
@@ -26,6 +24,19 @@ public class DBConnection {
         }
         System.exit(-1);
         return null;
+    }
+
+    public static void closeResources(Connection conn, PreparedStatement pstmt) {
+        try {
+            if (conn != null) {
+                conn.close();
+            }
+            if (pstmt != null) {
+                pstmt.close();
+            }
+        } catch (Exception e) {
+            log.warning(e.getMessage());
+        }
     }
 
 }
