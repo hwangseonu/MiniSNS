@@ -5,6 +5,7 @@ import me.mocha.minisns.model.dao.PostDAO;
 import me.mocha.minisns.model.dto.PostDTO;
 import me.mocha.minisns.model.dto.UserDTO;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 public class PostService {
@@ -23,6 +24,10 @@ public class PostService {
 
     public PostDTO getPost(long id) {
         return postDAO.findById(id);
+    }
+
+    public List<PostDTO> getAllPosts() {
+        return postDAO.findAll();
     }
 
     public boolean save(PostDTO postDTO) {

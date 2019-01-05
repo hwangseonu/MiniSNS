@@ -1,9 +1,12 @@
+<%@ page import="java.util.List" %>
+<%@ page import="me.mocha.minisns.model.dto.PostDTO" %>
 <%@ page import="me.mocha.minisns.model.dto.UserDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<html lang="ko">
 <head>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Mini SNS</title>
+  <title>Post List</title>
   <style>
     html, body {
       margin: 0;
@@ -56,40 +59,24 @@
       align-items: center;
       justify-content: center;
       width: 100%;
-      height: 100vh;
+      height: 500px;
       background-color: rgba(0, 0, 0, 0.5);
     }
 
     .page-description {
       text-align: center;
     }
-    
+
     .title {
       color: #FFFFFF;
       font-weight: bold;
       font-size: 3em
     }
-    
-    .description {
-      margin: 0;
-      color: #FFFFFF;
-      font-size: 1.3em;
-    }
 
-    .btn-post {
-      width: 300px;
-      height: 50px;
-      border: none;
-      border-radius: 10px;
-      font-weight: bold;
-      font-size: 1.3em;
-      color: #FFFFFF;
-      background: #555555;
-      margin-top: 50px;
-    }
-
-    .btn-post:hover {
-      background: #333333;
+    #page-section {
+      width: 100%;
+      min-height: 70vh;
+      background-color: #FFF;
     }
 
     @keyframes menu-hover {
@@ -100,37 +87,42 @@
         font-size: 1.3rem;
       }
     }
-
   </style>
 </head>
 <body>
-  <nav id="navbar">
-    <div class="navbar-brand">
-      <a href="${pageContext.request.contextPath}/">작은 블로그</a>
-    </div>
-    <div class="navbar-right">
-      <%
-        UserDTO user = (UserDTO) session.getAttribute("user");
-        if (user == null) {
-      %>
-      <a href="${pageContext.request.contextPath}/login.jsp" class="navbar-menu">로그인</a>
-      <a href="${pageContext.request.contextPath}/register.jsp" class="navbar-menu">회원가입</a>
-      <%
-        } else {
-            out.println("<a href=\"#\" class=\"navbar-menu\">"+user.getNickname()+"님 환영합니다.</a>");
-      %>
-      <a href="${pageContext.request.contextPath}/logout" class="navbar-menu">로그아웃</a>
-      <%
-        }
-      %>
-    </div>
-  </nav>
-  <header id="page-header">
-    <div class="page-description">
-      <p class="title">작은 블로그</p>
-      <p class="description">"자바로 만든 작은 블로그 서비스"</p>
-      <a href="${pageContext.request.contextPath}/editor.jsp"><button class="btn-post">게시글 쓰기</button></a>
-    </div>
-  </header>
+<nav id="navbar">
+  <div class="navbar-brand">
+    <a href="${pageContext.request.contextPath}/">작은 블로그</a>
+  </div>
+  <div class="navbar-right">
+    <%
+      UserDTO user = (UserDTO) session.getAttribute("user");
+      if (user == null) {
+    %>
+    <a href="${pageContext.request.contextPath}/login.jsp" class="navbar-menu">로그인</a>
+    <a href="${pageContext.request.contextPath}/register.jsp" class="navbar-menu">회원가입</a>
+    <%
+    } else {
+      out.println("<a href=\"#\" class=\"navbar-menu\">" + user.getNickname() + "님 환영합니다.</a>");
+    %>
+    <a href="${pageContext.request.contextPath}/logout" class="navbar-menu">로그아웃</a>
+    <%
+      }
+    %>
+  </div>
+</nav>
+<header id="page-header">
+  <div class="page-description">
+    <p class="title">작은 블로그</p>
+  </div>
+</header>
+<section id="page-section">
+  <%
+    List posts = (List) request.getAttribute("posts");
+    for (Object p : posts) {
+      PostDTO post = (PostDTO) p;
+    }
+  %>
+</section>
 </body>
 </html>
