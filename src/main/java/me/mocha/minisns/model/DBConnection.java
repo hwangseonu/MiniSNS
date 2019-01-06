@@ -15,7 +15,6 @@ public class DBConnection {
 
             Class.forName("org.mariadb.jdbc.Driver");
             connection = DriverManager.getConnection(url, user, pw);
-            log.info("connected mariadb");
             return connection;
         } catch (ClassNotFoundException ex) {
             log.warning("cannot found mariadb driver");

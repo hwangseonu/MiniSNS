@@ -6,7 +6,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Post List</title>
+  <title>Java Blog</title>
   <style>
     html, body {
       margin: 0;
@@ -74,9 +74,24 @@
     }
 
     #page-section {
-      width: 100%;
       min-height: 70vh;
       background-color: #FFF;
+      padding: 50px 20vw 0 20vw;
+    }
+
+    .article {
+      padding: 10px;
+      min-height: 10vh;
+      border-bottom: 1px solid #faba75;
+    }
+
+    .article-title {
+      font-size: 2em;
+      font-weight: bold;
+    }
+
+    .article-section {
+      padding-top: 20px;
     }
 
     @keyframes menu-hover {
@@ -121,6 +136,16 @@
     List posts = (List) request.getAttribute("posts");
     for (Object p : posts) {
       PostDTO post = (PostDTO) p;
+      out.println("<a href=\""+request.getContextPath()+"/posts?id="+post.getId()+"\">");
+      out.println("<article class=\"article\">");
+      out.println("<header class=\"article-header\">");
+      out.println("<span class=\"article-title\">"+post.getTitle()+"</span>");
+      out.println("</header>");
+      out.println("<section class=\"article-section\">");
+      out.println("<div>"+post.getContent()+"</div>");
+      out.println("<section>");
+      out.println("</article>");
+      out.println("</a>");
     }
   %>
 </section>

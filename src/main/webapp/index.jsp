@@ -3,7 +3,7 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Mini SNS</title>
+  <title>Java Blog</title>
   <style>
     html, body {
       margin: 0;
@@ -84,11 +84,25 @@
       font-weight: bold;
       font-size: 1.3em;
       color: #FFFFFF;
-      background: #555555;
+      background: #777777;
       margin-top: 50px;
+      display: block;
     }
 
-    .btn-post:hover {
+    .btn-list {
+      width: 300px;
+      height: 50px;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 1.3em;
+      color: #FFFFFF;
+      background: #888888;
+      margin-top: 50px;
+      display: block;
+    }
+
+    .btn-post:hover, .btn-list:hover {
       background: #333333;
     }
 
@@ -130,6 +144,7 @@
       <p class="title">작은 블로그</p>
       <p class="description">"자바로 만든 작은 블로그 서비스"</p>
       <a href="${pageContext.request.contextPath}/editor.jsp"><button class="btn-post">게시글 쓰기</button></a>
+      <a href="${pageContext.request.contextPath}/list"><button class="btn-list">게시글 보기</button></a>
     </div>
   </header>
 </body>

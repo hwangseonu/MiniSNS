@@ -92,7 +92,7 @@ public class PostDAO {
                         .title(resultSet.getString("title"))
                         .content(resultSet.getString("content"))
                         .username(resultSet.getString("username"))
-                        .views(resultSet.getLong("view"))
+                        .views(resultSet.getLong("views"))
                         .build());
 
             }

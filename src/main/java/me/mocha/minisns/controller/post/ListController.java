@@ -2,6 +2,10 @@ package me.mocha.minisns.controller.post;
 
 import me.mocha.minisns.model.dto.PostDTO;
 import me.mocha.minisns.model.service.PostService;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -22,6 +26,14 @@ public class ListController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         List<PostDTO> posts = postService.getAllPosts();
+        posts.forEach(p -> {
+            String content = p.getContent();
+            Parser parser = Parser.builder().build();
+            HtmlRenderer renderer = HtmlRenderer.builder().build();
+            content = renderer.render(parser.parse(content));
+            Document document = Jsoup.parse(content);
+            p.setContent(document.body().text());
+        });
         req.setAttribute("posts", posts);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/list.jsp");
         dispatcher.forward(req, res);
