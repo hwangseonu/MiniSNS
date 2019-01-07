@@ -1,7 +1,7 @@
-package me.mocha.minisns.controller.post;
+package me.mocha.blog.controller.post;
 
-import me.mocha.minisns.model.dto.PostDTO;
-import me.mocha.minisns.model.service.PostService;
+import me.mocha.blog.model.dto.PostDTO;
+import me.mocha.blog.model.service.PostService;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 import org.jsoup.Jsoup;

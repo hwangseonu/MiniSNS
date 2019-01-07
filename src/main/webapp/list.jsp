@@ -1,6 +1,6 @@
 <%@ page import="java.util.List" %>
-<%@ page import="me.mocha.minisns.model.dto.PostDTO" %>
-<%@ page import="me.mocha.minisns.model.dto.UserDTO" %>
+<%@ page import="me.mocha.blog.model.dto.PostDTO" %>
+<%@ page import="me.mocha.blog.model.dto.UserDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="ko">
 <head>

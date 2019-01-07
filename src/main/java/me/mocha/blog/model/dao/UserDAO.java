@@ -1,9 +1,9 @@
-package me.mocha.minisns.model.dao;
+package me.mocha.blog.model.dao;
 
-import me.mocha.minisns.exception.ConflictException;
-import me.mocha.minisns.exception.NotFoundException;
-import me.mocha.minisns.model.DBConnection;
-import me.mocha.minisns.model.dto.UserDTO;
+import me.mocha.blog.exception.ConflictException;
+import me.mocha.blog.exception.NotFoundException;
+import me.mocha.blog.model.DBConnection;
+import me.mocha.blog.model.dto.UserDTO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

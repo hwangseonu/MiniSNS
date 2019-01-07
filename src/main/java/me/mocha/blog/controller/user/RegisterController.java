@@ -1,7 +1,6 @@
-package me.mocha.minisns.controller.user;
+package me.mocha.blog.controller.user;
 
-import me.mocha.minisns.exception.ApplicationException;
-import me.mocha.minisns.model.service.UserService;
+import me.mocha.blog.model.service.UserService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

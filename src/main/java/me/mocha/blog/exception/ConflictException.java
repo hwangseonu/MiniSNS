@@ -1,4 +1,4 @@
-package me.mocha.minisns.exception;
+package me.mocha.blog.exception;
 
 public class ConflictException extends ApplicationException {
 

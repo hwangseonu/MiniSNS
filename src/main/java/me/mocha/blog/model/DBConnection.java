@@ -1,4 +1,4 @@
-package me.mocha.minisns.model;
+package me.mocha.blog.model;
 
 import java.sql.*;
 import java.util.logging.Logger;
@@ -11,7 +11,7 @@ public class DBConnection {
         try {
             String user = "root";
             String pw = "mocha127";
-            String url = "jdbc:mariadb://localhost:3306/minisns";
+            String url = "jdbc:mariadb://localhost:3306/blog";
 
             Class.forName("org.mariadb.jdbc.Driver");
             connection = DriverManager.getConnection(url, user, pw);

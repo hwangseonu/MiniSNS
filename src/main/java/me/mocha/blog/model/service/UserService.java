@@ -1,8 +1,8 @@
-package me.mocha.minisns.model.service;
+package me.mocha.blog.model.service;
 
-import me.mocha.minisns.exception.ConflictException;
-import me.mocha.minisns.model.dao.UserDAO;
-import me.mocha.minisns.model.dto.UserDTO;
+import me.mocha.blog.exception.ConflictException;
+import me.mocha.blog.model.dao.UserDAO;
+import me.mocha.blog.model.dto.UserDTO;
 
 import java.util.logging.Logger;
 
